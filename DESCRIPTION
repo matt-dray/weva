@@ -1,0 +1,15 @@
+Package: weva
+Title: Weather Report CLI
+Version: 0.0.0.9000
+Authors@R: 
+    person("Matt", "Dray", , "mwdray+weva@gmail.com", role = c("aut", "cre"))
+Description: A command-line interface (CLI) to fetch weather information from
+    the 'Open-Meteo' API.
+License: MIT + file LICENSE
+Imports: 
+    httr2,
+    PostcodesioR,
+    Rapp
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
