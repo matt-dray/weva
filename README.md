@@ -46,7 +46,7 @@ Then, whenever you want, run `weva` from a terminal with optional flags:
 weva wc2n5du -h 24 -e 
 ```
 ```
-now 11.5°C ☁️ | +48h 10.8°C 🌧️🪶 | today 10.9°C to 13°C
+now 11.1°C 🌧️🪶 | +24h 11.2°C 🌧️ | today 10.9°C to 13°C
 ```
 
 The first argument is positional and required: the UK postcode you want a report for (e.g. the above is Trafalgar Square).
