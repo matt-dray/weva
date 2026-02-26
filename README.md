@@ -51,7 +51,7 @@ now 11.1°C 🌧️🪶 | +24h 11.2°C 🌧️ | today 10.9°C to 13°C
 
 The first argument is positional and required: the UK postcode you want a report for (e.g. the above is Trafalgar Square).
 Specify how many `--hours` (`-h`) later (default 3) for a forward-look.
-Toggle on today's tempaerature `--extremes` (`-e`).
+Toggle on today's temperature `--extremes` (`-e`).
 
 The full display is three sub-reports: now, later and today's extremes.
 In the terminal, the temperature values are styled with ANSI codes.
