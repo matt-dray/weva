@@ -37,7 +37,7 @@ pak::pak("matt-dray/weva")
 After installation, run this once from an R console:
 
 ``` r
-weva::install_api()
+weva::install_cli()
 ```
 
 Then, whenever you want, run `weva` from a terminal with optional flags:
