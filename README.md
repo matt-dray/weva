@@ -11,11 +11,15 @@ proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https:
 [![jarl-check](https://github.com/matt-dray/hext/actions/workflows/lint.yaml/badge.svg)](https://github.com/matt-dray/hext/actions/workflows/lint.yaml)
 <!-- badges: end -->
 
-A [Rapp](https://cran.r-project.org/package=Rapp)-powered command line interface (CLI) for fetching weather from the [Open-Meteo](https://open-meteo.com) API for a given UK postcode.
+An R package with a [Rapp](https://cran.r-project.org/package=Rapp)-powered command line interface (CLI) to generate a mini weather report for a UK postcode.
 
 > [!NOTE]
-> This is an opinionated hobby project for personal use.
-> It is not an R wrapper for the Open-Meteo API.
+> This is a simple and opinionated hobby project for personal use.
+
+Using data from the:
+
+* [Open-Meteo](https://open-meteo.com) API
+* [postcodes.io](https://postcodes.io/) API via the [{PostocdesioR}](https://docs.ropensci.org/PostcodesioR/) R package
 
 ## Install
 
@@ -30,16 +34,27 @@ pak::pak("matt-dray/weva")
 > [!NOTE]
 > Tested on macOS only.
 
-From an R console run:
+After installation, run this once from an R console:
 
 ``` r
 weva::install_api()
 ```
 
-Then, run `weva` from a terminal with the `--postcode` (`-p`) flag.
+Then, whenever you want, run `weva` from a terminal with optional flags:
 
 ```bash
-weva -p WC2N5DU
+weva wc2n5du -h 24 -e 
 ```
+```
+now 11.5°C ☁️ | +48h 10.8°C 🌧️🪶 | today 10.9°C to 13°C
+```
+
+The first argument is positional and required: the UK postcode you want a report for (e.g. the above is Trafalgar Square).
+Specify how many `--hours` (`-h`) later (default 3) for a forward-look.
+Toggle on today's tempaerature `--extremes` (`-e`).
+
+The full display is three sub-reports: now, later and today's extremes.
+In the terminal, the temperature values are styled with ANSI codes.
+The now and later reports show an emoji representation of the weather code for that time period.
 
 Run `weva --help` for further information.

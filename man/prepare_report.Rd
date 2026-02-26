@@ -4,11 +4,15 @@
 \alias{prepare_report}
 \title{Prepare Weather Report}
 \usage{
-prepare_report(response)
+prepare_report(response, hours, extremes)
 }
 \arguments{
 \item{response}{A list. Response to a query from the 'Open-Meteo' API,
 fetched with \link{get_weather}.}
+
+\item{hours}{Integer scalar. How many hours after now for the 'later' report.}
+
+\item{extremes}{Logical scalar. Show today's min/max temperatures?}
 }
 \description{
 Prepare Weather Report
