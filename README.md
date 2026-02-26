@@ -19,7 +19,7 @@ An R package with a [Rapp](https://cran.r-project.org/package=Rapp)-powered comm
 Using data from the:
 
 * [Open-Meteo](https://open-meteo.com) API
-* [postcodes.io](https://postcodes.io/) API via the [{PostocdesioR}](https://docs.ropensci.org/PostcodesioR/) R package
+* [postcodes.io](https://postcodes.io/) API via the [{PostcodesioR}](https://docs.ropensci.org/PostcodesioR/) R package
 
 ## Install
 
