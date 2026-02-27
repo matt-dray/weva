@@ -14,6 +14,13 @@ fetched with \link{get_weather}.}
 
 \item{extremes}{Logical scalar. Show today's min/max temperatures?}
 }
+\value{
+Character scalar.
+}
 \description{
-Prepare Weather Report
+Prepare data into a micro weather-report string with 'now' and 'later'
+segments, and possibly a segment for today's min- and max-temperature.
+}
+\examples{
+\dontrun{get_weather("wc2n5du") |> prepare_report(3L, TRUE)}
 }

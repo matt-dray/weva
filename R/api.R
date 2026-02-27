@@ -1,12 +1,42 @@
 #' Prepare Weather Report
+#'
+#' Prepare data into a micro weather-report string with 'now' and 'later'
+#' segments, and possibly a segment for today's min- and max-temperature.
 #' @param response A list. Response to a query from the 'Open-Meteo' API,
 #'     fetched with [get_weather].
 #' @param hours Integer scalar. How many hours after now for the 'later' report.
 #' @param extremes Logical scalar. Show today's min/max temperatures?
+#' @examples \dontrun{get_weather("wc2n5du") |> prepare_report(3L, TRUE)}
+#' @return Character scalar.
 #' @export
 prepare_report <- function(response, hours, extremes) {
+  if (!is.list(response)) {
+    stop("Argument 'response' must be a list.", call. = FALSE)
+  }
+  if (
+    !all(c("current", "hourly", "daily", "current_units") %in% names(response))
+  ) {
+    stop("Response is missing expected elements.", call. = FALSE)
+  }
+  if (
+    !is.numeric(hours) ||
+      length(hours) != 1 ||
+      is.na(hours) ||
+      hours < 0 ||
+      hours != as.integer(hours)
+  ) {
+    stop("'hours' must be a non-negative integer scalar.", call. = FALSE)
+  }
+  if (!is.logical(extremes) || length(extremes) != 1) {
+    stop("Argument 'extremes' must be logical scalar.", call. = FALSE)
+  }
+
   current <- response[["current"]]
   hourly <- response[["hourly"]]
+
+  if (hours > length(hourly[["temperature_2m"]])) {
+    stop("Requested hour exceeds forecast range.", call. = FALSE)
+  }
 
   units <- response[["current_units"]][["temperature_2m"]]
   temp_now <- paste0(current[["temperature_2m"]], units)
@@ -39,7 +69,15 @@ prepare_report <- function(response, hours, extremes) {
   report
 }
 
+#' Convert Weather Codes into Emoji Representations
+#' @param weather_code Integer scalar. A weather code.
+#' @return Character scalar.
+#' @noRd
 as_emoji <- function(weather_code) {
+  if (!is.numeric(weather_code) || length(weather_code) != 1) {
+    stop("Argument 'weather_code' must be numeric scalar.", call. = FALSE)
+  }
+
   # Weather
   SUN <- "\u2600\uFE0F"
   MOSTLY_SUNNY <- "\U0001F324\uFE0F"
@@ -100,17 +138,54 @@ as_emoji <- function(weather_code) {
   )
 }
 
-#' Get Weather Response from 'Open-Meteo'
-#' @param postcode Character scalar. A UK postcode.
+#' Get Weather Data from the 'Open-Meteo' API
+#'
+#' Get a restricted set of information from the 'Open-Meteo' API for a valid UK
+#' postcode that is interpretable by the 'postcodes.io' API.
+#' @param postcode Character scalar. A UK postcode. Defaults to finding
+#'     the environment variable `WEVA_POSTCODE`, otherwise Trafalgar Square
+#'     (WC2N5DU).
+#' @details
+#' - Fixed for the `GMT` timezone for three `forecast_days`.
+#' - Data fetched from the 'Open-Meteo' API:
+#'   - current `temperature_2m` and `weather_code`
+#'   - hourly `temperature_2m` and `weather_code`
+#'   - daily `temperature_2m_min` and `temperature_2m_max`
+#' - Attempts to contact the API time out after 10 s with 3 retries
+#' @return A list.
+#' @examples \dontrun{get_weather("wc2n5du") }
 #' @export
 get_weather <- function(postcode) {
-  url <- "https://api.open-meteo.com/v1/forecast"
-  req <- build_request(url, postcode)
+  if (!is.character(postcode) || length(postcode) != 1) {
+    stop("Argument 'postcode' must be character scalar.", call. = FALSE)
+  }
+
+  req <- build_request(postcode = postcode) |>
+    httr2::req_timeout(10) |>
+    httr2::req_retry(max_tries = 3)
+
   resp <- httr2::req_perform(req)
-  resp |> httr2::resp_body_json()
+  httr2::resp_check_status(resp)
+
+  httr2::resp_body_json(resp)
 }
 
-build_request <- function(url, postcode) {
+#' Build an API Query
+#' @param url Character scalar. The base URL for the API service.
+#' @param postcode Character scalar. A UK postcode.
+#' @return A 'httr2_request' object.
+#' @noRd
+build_request <- function(
+  url = "https://api.open-meteo.com/v1/forecast",
+  postcode
+) {
+  if (!is.character(url) || length(url) != 1) {
+    stop("Argument 'url' must be character scalar.", call. = FALSE)
+  }
+  if (!is.character(postcode) || length(postcode) != 1) {
+    stop("Argument 'postcode' must be character scalar.", call. = FALSE)
+  }
+
   geo <- convert_postcode(postcode)
 
   httr2::request(url) |>
@@ -118,6 +193,7 @@ build_request <- function(url, postcode) {
       latitude = geo[["lat"]],
       longitude = geo[["lon"]],
       timezone = "GMT",
+      forecast_days = 3L,
       current = paste("temperature_2m", "weather_code", sep = ","),
       hourly = paste("temperature_2m", "weather_code", sep = ","),
       daily = paste("temperature_2m_min", "temperature_2m_max", sep = ",")
@@ -125,10 +201,19 @@ build_request <- function(url, postcode) {
     httr2::req_user_agent("weva (http://github.com/matt-dray/weva)")
 }
 
+#' Convert a Postcode to Latitude and Longitude
+#' @param postcode Character scalar. A UK postcode.
+#' @return A list with two named numeric values ('lat' and 'lon').
+#' @noRd
 convert_postcode <- function(postcode) {
-  info <- PostcodesioR::postcode_lookup(postcode)
+  if (!is.character(postcode) || length(postcode) != 1) {
+    stop("Argument 'postcode' must be character scalar.", call. = FALSE)
+  }
+
+  lookup <- PostcodesioR::postcode_lookup(postcode)
+
   list(
-    lat = info[["latitude"]],
-    lon = info[["longitude"]]
+    lat = lookup[["latitude"]],
+    lon = lookup[["longitude"]]
   )
 }

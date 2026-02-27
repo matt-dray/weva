@@ -2,13 +2,34 @@
 % Please edit documentation in R/api.R
 \name{get_weather}
 \alias{get_weather}
-\title{Get Weather Response from 'Open-Meteo'}
+\title{Get Weather Data from the 'Open-Meteo' API}
 \usage{
 get_weather(postcode)
 }
 \arguments{
-\item{postcode}{Character scalar. A UK postcode.}
+\item{postcode}{Character scalar. A UK postcode. Defaults to finding
+the environment variable \code{WEVA_POSTCODE}, otherwise Trafalgar Square
+(WC2N5DU).}
+}
+\value{
+A list.
 }
 \description{
-Get Weather Response from 'Open-Meteo'
+Get a restricted set of information from the 'Open-Meteo' API for a valid UK
+postcode that is interpretable by the 'postcodes.io' API.
+}
+\details{
+\itemize{
+\item Fixed for the \code{GMT} timezone for three \code{forecast_days}.
+\item Data fetched from the 'Open-Meteo' API:
+\itemize{
+\item current \code{temperature_2m} and \code{weather_code}
+\item hourly \code{temperature_2m} and \code{weather_code}
+\item daily \code{temperature_2m_min} and \code{temperature_2m_max}
+}
+\item Attempts to contact the API time out after 10 s with 3 retries
+}
+}
+\examples{
+\dontrun{get_weather("wc2n5du") }
 }

@@ -1,15 +1,15 @@
 #!/usr/bin/env Rapp
 #| name: weva
-#| description: A micro weather report using 'Open-Meteo' and 'postcode.io'
+#| description: A micro weather report with 'Open-Meteo' and 'postcodes.io' APIs
 
 #| description: A UK postcode
 postcode <- NULL
 
-#| description: Hours from now to report for (up to seven days)
+#| description: Hours hence for the future-look segment (up to three days)
 #| short: h
-hours <- 3L
+hours <- 1L
 
-#| description: Show min and max temperature?
+#| description: Show segment for today's min- and max-temperature?
 #| short: e
 extremes <- FALSE
 
