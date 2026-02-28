@@ -2,25 +2,51 @@
 % Please edit documentation in R/api.R
 \name{prepare_report}
 \alias{prepare_report}
-\title{Prepare Weather Report}
+\title{Prepare a Weather Report}
 \usage{
-prepare_report(response, hours, extremes)
+prepare_report(
+  response,
+  hours_to_forecast = 1L,
+  show_datetimes = FALSE,
+  show_extremes = FALSE
+)
 }
 \arguments{
-\item{response}{A list. Response to a query from the 'Open-Meteo' API,
-fetched with \link{get_weather}.}
+\item{response}{A list. Response to a query from the 'Open-Meteo' API fetched
+with \link{get_weather}.}
 
-\item{hours}{Integer scalar. How many hours after now for the 'later' report.}
+\item{hours_to_forecast}{Integer scalar. How many hours after now for the
+'later' segment of the report. Default is \code{1L} hour. See details.}
 
-\item{extremes}{Logical scalar. Show today's min/max temperatures?}
+\item{show_datetimes}{Logical scalar. Show datetimes in each segment instead
+of explanatory text? Default is \code{FALSE} (do not show). See details.}
+
+\item{show_extremes}{Logical scalar. Show a segment with today's minimum and
+maximum temperatures? Default is \code{FALSE} (do not show).}
 }
 \value{
-Character scalar.
+Character scalar. A string containing a weather report.
 }
 \description{
 Prepare data into a micro weather-report string with 'now' and 'later'
-segments, and possibly a segment for today's min- and max-temperature.
+segments, and possibly a segment for today's minimum and maximum
+temperatures. The output contains emoji weather representations and styled
+text when printed with \link{cat} and if your terminal supports ANSI escape codes.
+}
+\details{
+You cannot request a number of \code{hours_to_forecast} beyond what has been
+returned from the 'Open-Meteo' API, which is three days inclusive of today.
+That's a maximum of 72 hours, but that value will shrink over the course of
+today.
+
+To return the forecast for later, the current time according to 'Open-Meteo'
+(nearest quarter-hour) is rounded to the nearest top-of-the-hour and the
+\code{hours_to_forecast} supplied by the user is added. The weather for the
+calculated hour is returned.
+
+For clarity, set \code{show_datetimes = TRUE} to expose these datetimes in the
+'now' and 'later' segments.
 }
 \examples{
-\dontrun{get_weather("wc2n5du") |> prepare_report(3L, TRUE)}
+\dontrun{get_weather("wc2n5du") |> prepare_report(24L, TRUE, TRUE) |> cat()}
 }
