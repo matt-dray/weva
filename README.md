@@ -11,10 +11,10 @@ proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https:
 [![jarl-check](https://github.com/matt-dray/hext/actions/workflows/lint.yaml/badge.svg)](https://github.com/matt-dray/hext/actions/workflows/lint.yaml)
 <!-- badges: end -->
 
-An R package with a [Rapp](https://cran.r-project.org/package=Rapp)-powered command line interface (CLI) to generate a mini weather report for a UK postcode.
-
 > [!NOTE]
 > This is a simple and opinionated hobby project for personal use.
+
+An R package with a [Rapp](https://cran.r-project.org/package=Rapp)-powered command line interface (CLI) to generate a mini weather report for a UK postcode.
 
 Using data from the:
 
@@ -23,7 +23,7 @@ Using data from the:
 
 ## Install
 
-You can install like:
+You can install the package from the R console.
 
 ``` r
 pak::pak("matt-dray/weva")
@@ -31,30 +31,38 @@ pak::pak("matt-dray/weva")
 
 ## Use
 
-> [!NOTE]
-> Tested on macOS only.
-
-After installation, run this once from an R console:
+Once the package is installed, you can install the CLI via the R console.
 
 ``` r
 weva::install_cli()
 ```
 
-Then, whenever you want, run `weva` from a terminal with optional flags:
+Then, whenever you want, run `weva` from a terminal with the only required positional argument: a valid UK postcode.
 
 ```bash
-weva wc2n5du -h 24 -e 
+weva wc2n5du
 ```
 ```
-now 11.1°C 🌧️🪶 | +24h 11.2°C 🌧️ | today 10.9°C to 13°C
+now 8.2°C ☀️ | +1h 7.6°C ☀️ 
 ```
 
-The first argument is positional and required: the UK postcode you want a report for (e.g. the above is Trafalgar Square).
-Specify how many `--hours` (`-h`) later (default 3) for a forward-look.
-Toggle on today's temperature `--extremes` (`-e`).
+The temperature values are styled with [ANSI escape codes](https://en.wikipedia.org/wiki/ANSI_escape_code) if your terminal supports them.
 
-The full display is three sub-reports: now, later and today's extremes.
-In the terminal, the temperature values are styled with ANSI codes.
-The now and later reports show an emoji representation of the weather code for that time period.
+You can also supply options to:
+
+* extend the 'later' forecast by a user-supplied number of `--hours` (shortcut `-h`)
+* show interpreted `--datetimes` (`-d`) for each segment, rather than simple text
+* show today's `--extremes` (`-e`) of temperature.
+
+```bash
+weva "WC2N 5DU" -h 24 -d -e
+```
+```
+2026-02-28 20:30 8.2°C ☀️ | 2026-03-01 21:00 11.1°C ☁️ | 2026-02-28 6.9°C to 10.7°C 
+```
 
 Run `weva --help` for further information.
+
+## CLI-first
+
+{weva} has been designed as a CLI-first package, but you can use the exported `get_weather()` and `prepare_report()` functions in an R session.
