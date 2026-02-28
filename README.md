@@ -29,15 +29,15 @@ You can install the package from the R console.
 pak::pak("matt-dray/weva")
 ```
 
-## Use
-
 Once the package is installed, you can install the CLI via the R console.
 
 ``` r
 weva::install_cli()
 ```
 
-Then, whenever you want, run `weva` from a terminal with the only required positional argument: a valid UK postcode.
+## Use
+
+Run `weva` from a terminal with a valid UK postcode—the only required positional argument—to receive a tiny weather update and forecast.
 
 ```bash
 weva wc2n5du
@@ -65,4 +65,4 @@ Run `weva --help` for further information.
 
 ## CLI-first
 
-{weva} has been designed as a CLI-first package, but you can use the exported `get_weather()` and `prepare_report()` functions in an R session.
+This is a CLI-first package, but you can also use the exported `get_weather()` and `prepare_report()` functions in an R session.
