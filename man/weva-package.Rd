@@ -4,9 +4,9 @@
 \name{weva-package}
 \alias{weva}
 \alias{weva-package}
-\title{weva: Weather Report CLI}
+\title{weva: A Tiny Weather-Report CLI}
 \description{
-A command-line interface (CLI) to fetch weather information from the 'Open-Meteo' API.
+A tiny opinionated command-line interface (CLI) to fetch weather information from the 'Open-Meteo' API and present it as a single-line in the terminal.
 }
 \author{
 \strong{Maintainer}: Matt Dray \email{mwdray+weva@gmail.com}
