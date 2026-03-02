@@ -6,7 +6,15 @@
 \alias{weva-package}
 \title{weva: A Tiny Weather-Report CLI}
 \description{
-A tiny opinionated command-line interface (CLI) to fetch weather information from the 'Open-Meteo' API and present it as a single-line in the terminal.
+A limited and opinionated command-line interface (CLI) to fetch weather information for a UK postcode from the 'Open-Meteo' API and present it as a single-line in the terminal.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/matt-dray/weva}
+  \item Report bugs at \url{https://github.com/matt-dray/weva/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Matt Dray \email{mwdray+weva@gmail.com}
