@@ -18,7 +18,7 @@ postcode that is interpretable by the 'postcodes.io' API.
 }
 \details{
 \itemize{
-\item Fixed for timezone GMT.
+\item Fixed for timezone Europe/London.
 \item Fixed to a three-day forecast (inclusive of today).
 \item Data fetched from the 'Open-Meteo' API:
 \itemize{
