@@ -1,12 +1,14 @@
 Package: weva
 Title: A Tiny Weather-Report CLI
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: 
     person("Matt", "Dray", , "mwdray+weva@gmail.com", role = c("aut", "cre"))
-Description: A tiny opinionated command-line interface (CLI) to fetch
-    weather information from the 'Open-Meteo' API and present it as a
-    single-line in the terminal.
+Description: A limited and opinionated command-line interface (CLI) to
+    fetch weather information for a UK postcode from the 'Open-Meteo' API
+    and present it as a single-line in the terminal.
 License: MIT + file LICENSE
+URL: https://github.com/matt-dray/weva
+BugReports: https://github.com/matt-dray/weva/issues
 Imports: 
     httr2,
     lubridate,

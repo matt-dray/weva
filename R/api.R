@@ -67,7 +67,7 @@ prepare_report <- function(
   units <- response[["current_units"]][["temperature_2m"]]
 
   current_time_rounded <- current[["time"]] |>
-    lubridate::ymd_hm(tz = "GMT") |>
+    lubridate::ymd_hm(tz = "Europe/London") |>
     lubridate::round_date("hour") |>
     format("%Y-%m-%dT%H:%M")
   current_index <- match(current_time_rounded, hourly[["time"]])
@@ -96,10 +96,10 @@ prepare_report <- function(
   if (show_datetimes) {
     format_string <- "%Y-%m-%d %H:%M"
     dt_now <- current[["time"]] |>
-      lubridate::ymd_hm(tz = "GMT") |>
+      lubridate::ymd_hm(tz = "Europe/London") |>
       format(format_string)
     dt_later <- hourly[["time"]][[index_later]] |>
-      lubridate::ymd_hm(tz = "GMT") |>
+      lubridate::ymd_hm(tz = "Europe/London") |>
       format(format_string)
 
     # fmt: skip
@@ -116,7 +116,9 @@ prepare_report <- function(
 
     when <- ifelse(
       show_datetimes,
-      current[["time"]] |> lubridate::ymd_hm(tz = "GMT") |> format("%Y-%m-%d"),
+      current[["time"]] |>
+        lubridate::ymd_hm(tz = "Europe/London") |>
+        format("%Y-%m-%d"),
       "today"
     )
 
@@ -209,7 +211,7 @@ as_emoji <- function(weather_code) {
 #'
 #' @param postcode Character scalar. A valid UK postcode.
 #' @details
-#' - Fixed for timezone GMT.
+#' - Fixed for timezone Europe/London.
 #' - Fixed to a three-day forecast (inclusive of today).
 #' - Data fetched from the 'Open-Meteo' API:
 #'   - current `temperature_2m` and `weather_code`
@@ -244,7 +246,7 @@ build_request <- function(postcode) {
     httr2::req_url_query(
       latitude = geo[["lat"]],
       longitude = geo[["lon"]],
-      timezone = "GMT",
+      timezone = "Europe/London",
       forecast_days = 3L,
       current = paste("temperature_2m", "weather_code", sep = ","),
       hourly = paste("temperature_2m", "weather_code", sep = ","),
