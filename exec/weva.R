@@ -17,6 +17,11 @@ datetimes <- FALSE
 #| short: e
 extremes <- FALSE
 
-get_weather(postcode) |>
-  prepare_report(hours, datetimes, extremes) |>
+get_latlon(postcode) |>
+  get_weather() |>
+  write_report(
+    hours_to_forecast = hours,
+    show_datetimes = datetimes,
+    show_extremes = extremes
+  ) |>
   cat()
