@@ -1,18 +1,19 @@
 Package: weva
-Title: A Tiny Weather-Report CLI
-Version: 0.2.0.9000
+Title: A Limited and Opinionated Weather-Report CLI
+Version: 0.3.0
 Authors@R: 
     person("Matt", "Dray", , "mwdray+weva@gmail.com", role = c("aut", "cre"))
-Description: A limited and opinionated command-line interface (CLI) to
-    fetch weather information for a UK postcode from the 'Open-Meteo' API
-    and present it as a single-line in the terminal.
+Description: Fetch weather information for a UK postcode and print it as a
+    one-line report. Intended primarily for use as a limited and
+    opinionated command-line interface (CLI). Gets weather information
+    from the 'Open-Meteo' API and handles geolocation with the
+    'postcodes.io' API.
 License: MIT + file LICENSE
 URL: https://github.com/matt-dray/weva
 BugReports: https://github.com/matt-dray/weva/issues
 Imports: 
     httr2,
     lubridate,
-    PostcodesioR,
     Rapp
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

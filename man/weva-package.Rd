@@ -4,9 +4,9 @@
 \name{weva-package}
 \alias{weva}
 \alias{weva-package}
-\title{weva: A Tiny Weather-Report CLI}
+\title{weva: A Limited and Opinionated Weather-Report CLI}
 \description{
-A limited and opinionated command-line interface (CLI) to fetch weather information for a UK postcode from the 'Open-Meteo' API and present it as a single-line in the terminal.
+Fetch weather information for a UK postcode and print it as a one-line report. Intended primarily for use as a limited and opinionated command-line interface (CLI). Gets weather information from the 'Open-Meteo' API and handles geolocation with the 'postcodes.io' API.
 }
 \seealso{
 Useful links:
